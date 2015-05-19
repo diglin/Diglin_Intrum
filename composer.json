@@ -1,0 +1,26 @@
+{
+  "name": "diglin/diglin_intrum",
+  "description": "Magento Extension for the Justitia Intrum Credit Check Service",
+  "type": "magento-module",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Sylvain Raye",
+      "email": "support@diglin.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "diglin/intrum": "1.*"
+  },
+  "require-dev": {
+    "ecomdev/ecomdev_phpunit": "*",
+    "mikey179/vfsStream": ">=1.2.0"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:diglin/intrum.git"
+    }
+  ]
+}

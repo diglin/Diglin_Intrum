@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Diglin GmbH - Switzerland
+ *
+ * @author      Sylvain Rayé <support at diglin.com>
+ * @category    Diglin_Intrum
+ * @package     Diglin_Intrum
+ * @copyright   Copyright (c) 2011-2015 Diglin (http://www.diglin.com)
+ */-->
+<config>
+    <modules>
+        <Diglin_Intrum>
+            <version>1.0.0</version>
+        </Diglin_Intrum>
+    </modules>
+
+    <default>
+        <intrum>
+            <api>
+                <user_id />
+                <password />
+                <client_id />
+                <client_email />
+                <currentmode>test</currentmode>
+                <minamout>10</minamout>
+                <timeout>30</timeout>
+            </api>
+            <advancedcall>
+                <activation><![CDATA[checkout,onepage
+onestepcheckout,index
+onestepcheckout,onepage
+PostFinanceCw,onepage
+PostFinanceCw,process]]></activation>
+            </advancedcall>
+        </intrum>
+    </default>
+
+    <global>
+        <psr0_namespaces>
+            <!-- Required to load the Intrum PHP library -->
+            <Diglin_Intrum/>
+        </psr0_namespaces>
+
+        <phpunit>
+            <suite>
+                <modules>
+                    <Diglin_Intrum />
+                </modules>
+            </suite>
+        </phpunit>
+
+        <fieldsets>
+            <sales_convert_quote>
+                <intrum_status>
+                    <to_order>*</to_order>
+                </intrum_status>
+                <intrum_credit_rating>
+                    <to_order>*</to_order>
+                </intrum_credit_rating>
+                <intrum_credit_level>
+                    <to_order>*</to_order>
+                </intrum_credit_level>
+            </sales_convert_quote>
+        </fieldsets>
+
+        <models>
+            <diglin_intrum>
+                <class>Diglin_Intrum_Model</class>
+                <resourceModel>diglin_intrum_resource</resourceModel>
+            </diglin_intrum>
+
+            <diglin_intrum_resource>
+                <class>Diglin_Intrum_Model_Resource</class>
+                <entities>
+                    <log>
+                        <table>intrum_log</table>
+                    </log>
+                </entities>
+            </diglin_intrum_resource>
+        </models>
+
+        <resources>
+            <diglin_intrum_setup>
+                <setup>
+                    <module>Diglin_Intrum</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </diglin_intrum_setup>
+
+            <diglin_intrum_resource_read>
+                <connection>core_read</connection>
+            </diglin_intrum_resource_read>
+
+            <diglin_intrum_resource_write>
+                <connection>core_write</connection>
+            </diglin_intrum_resource_write>
+        </resources>
+
+        <blocks>
+            <diglin_intrum>
+                <class>Diglin_Intrum_Block</class>
+            </diglin_intrum>
+        </blocks>
+
+        <helpers>
+            <diglin_intrum>
+                <class>Diglin_Intrum_Helper</class>
+            </diglin_intrum>
+        </helpers>
+
+        <resources>
+            <diglin_intrum_setup>
+                <setup>
+                    <module>Diglin_Intrum</module>
+                </setup>
+            </diglin_intrum_setup>
+        </resources>
+
+        <events>
+            <resource_get_tablename>
+                <observers>
+                    <diglin_intrum>
+                        <type>singleton</type>
+                        <class>diglin_intrum/observer</class>
+                        <method>addAutoloader</method>
+                    </diglin_intrum>
+                </observers>
+            </resource_get_tablename>
+
+            <add_spl_autoloader>
+                <observers>
+                    <diglin_intrum>
+                        <type>singleton</type>
+                        <class>diglin_intrum/observer</class>
+                        <method>addAutoloader</method>
+                    </diglin_intrum>
+                </observers>
+            </add_spl_autoloader>
+
+            <controller_action_predispatch_checkout_onepage_saveBilling>
+                <observers>
+                    <auto_register_shipping>
+                        <type>singleton</type>
+                        <class>diglin_intrum/observer</class>
+                        <method>checkoutControllerOnepageSaveBillingMethod</method>
+                    </auto_register_shipping>
+                </observers>
+            </controller_action_predispatch_checkout_onepage_saveBilling>
+
+            <checkout_controller_onepage_save_shipping_method>
+                <observers>
+                    <intrum_after_checkout_process>
+                        <type>singleton</type>
+                        <class>diglin_intrum/observer</class>
+                        <method>checkoutControllerOnepageSaveShippingMethod</method>
+                    </intrum_after_checkout_process>
+                </observers>
+            </checkout_controller_onepage_save_shipping_method>
+
+            <payment_method_is_active>
+                <observers>
+                    <intrum_before_load_payment_method>
+                        <type>singleton</type>
+                        <class>diglin_intrum/observer</class>
+                        <method>checkAndCall</method>
+                    </intrum_before_load_payment_method>
+                </observers>
+            </payment_method_is_active>
+
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <intrum_after_checkout_process>
+                        <type>singleton</type>
+                        <class>diglin_intrum/observer</class>
+                        <method>salesOrderPaymentPlaceEnd</method>
+                    </intrum_after_checkout_process>
+                </observers>
+            </checkout_onepage_controller_success_action>
+        </events>
+    </global>
+
+    <frontend>
+        <translate>
+            <modules>
+                <diglin_intrum>
+                    <files>
+                        <default>Diglin_Intrum.csv</default>
+                    </files>
+                </diglin_intrum>
+            </modules>
+        </translate>
+    </frontend>
+
+    <admin>
+        <translate>
+            <modules>
+                <diglin_intrum>
+                    <files>
+                        <default>Diglin_Intrum.csv</default>
+                    </files>
+                </diglin_intrum>
+            </modules>
+        </translate>
+
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Diglin_Intrum before="Mage_Adminhtml">Diglin_Intrum_Adminhtml</Diglin_Intrum>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>

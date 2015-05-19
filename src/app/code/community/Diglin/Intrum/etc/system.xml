@@ -1,0 +1,315 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <diglin module="corporate" translate="label">
+            <label><![CDATA[<div><img alt="Diglin" title="Diglin" width="66" height="23" style="display:block;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEIAAAAXCAYAAAC/F5msAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIE1hY2ludG9zaCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo2QjlDMEY2NTc5NkUxMUUzQTk3RUQ4RTMwOTcyMzZFOSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo2QjlDMEY2Njc5NkUxMUUzQTk3RUQ4RTMwOTcyMzZFOSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjZCOUMwRjYzNzk2RTExRTNBOTdFRDhFMzA5NzIzNkU5IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjZCOUMwRjY0Nzk2RTExRTNBOTdFRDhFMzA5NzIzNkU5Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+yStvXwAAApxJREFUeNrsWF1OwkAQ3hoeNekNrCewr/oiPQHlBvQGeALhBOAJ4AbgCYAnX3sDewRMfK8z5Fsz2exPrYCmcZIBWnZ+9tv5a6O6rtU/KdXjjyiKDheXd3d9+hoQJ8Q74uXH6+u+ixs3AyDiGwwEgTCi64WxviTOugiGCcSF+D2zrE/5PoEUdz01DhFxdX/PKbFxrNkSV8SPbSODgGTdbGNLOrK2zpKeifaJ9GxPERGVR4bTI2eg/kBkPIH7x1Z8AILQrXDyJs2JuXbESJNNV9OkJ34PkR6pBQRZM1ZcQD3hy+vHxA84ucrQwWtm2o5OFSE3wH8leIqDctlLRX3j9C2hKxcdMIUfrO/ZllZfQHD+k4IMYGwtIGjqs3E26ABBgqngiK0Im+FtyqXgnPTeeOpTLHRpf1cW/QmY9fGhr11dQ8FY4QFBGQZNGonNLBE5GU7CVwSlHB/CVDgaQ28bqqCrQIQ7O2TPEmabAAjKs7GBdoBALYTeULfRcrxuqE+f5OoA8EEgSNdE+KGQfom1WH4ThGkgTENdyCdXnnh4e/d2DZFXIRCWEuEu0YWIhqQBCEVgzd5TIJtQ8qtAiA34akKTkN3pDRG4Y/EglwbsvAi5FctAzkW3pxyoXAVwjpMak3OLgL652OwMxU7WnWdXtAn7OWQ2jnFfoQXWAbBaRYRCi9l7JstDe/SBgUKXWaZUBrpwPR8IuSlk945J97FFIW7+0CXeR8jOMffME2s4FdsGKzFcpW07AclzFL6JTjUx/nPa/tH7CKONLoB8/sPi+Z2N667FdeYak6EunjxbrM/1PkKHaYk0UecCwRiVnxCJGoT1sUEIpkaD54ZTgaDH7AcBAEfkjmwtz/qqzpPnM+HcrisDlRWIf1LqU4ABALewLXRXQ1aPAAAAAElFTkSuQmCC">
+</div>]]></label>
+            <sort_order>400</sort_order>
+        </diglin>
+    </tabs>
+
+    <sections>
+        <intrum translate="label" module="diglin_intrum">
+            <label>Intrum</label>
+            <tab>diglin</tab>
+            <sort_order>130</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <api translate="label">
+                    <label>API Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <pluginenabled translate="label comment">
+                            <label>Enable credit check</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>0</sort_order>
+                            <source_model>diglin_intrum/config_source_activate</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pluginenabled>
+                        <currentmode translate="label comment">
+                            <label>Mode</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>0</sort_order>
+                            <source_model>diglin_intrum/config_source_modes</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </currentmode>
+                        <clientid translate="label">
+                            <label>Client ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </clientid>
+                        <userid translate="label">
+                            <label>User ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </userid>
+                        <password translate="label">
+                            <label>Password</label>
+                            <frontend_type>password</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </password>
+                        <mail translate="label">
+                            <label>Technical Contact (E-mail)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </mail>
+                        <minamout translate="label">
+                            <label>Mininmal amount for credit check</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </minamout>
+                        <timeout translate="label">
+                           <label>Connection timeout to Intrum CDP server in seconds</label>
+                           <frontend_type>text</frontend_type>
+                           <validate>required-entry validate-digits</validate>
+                           <sort_order>6</sort_order>
+                           <show_in_default>1</show_in_default>
+                           <show_in_website>1</show_in_website>
+                           <show_in_store>1</show_in_store>
+                        </timeout>
+                    </fields>
+                </api>
+                <risk translate="label">
+                    <label>Risk Management</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>3</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <titleModel1 translate="label comment">
+                            <frontend_type>Checkboxes</frontend_type>
+                            <sort_order>0</sort_order>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_titlerange</frontend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </titleModel1>
+                        <status1 translate="label comment">
+                            <label>There are serious negative indicators (status 1)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <sort_order>1</sort_order>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedrange</frontend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status1>
+                        <status2 translate="label comment">
+                            <label>All payment methods (status 2)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <sort_order>2</sort_order>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedrange</frontend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status2>
+                        <status3 translate="label">
+                            <label>Manual post-processing (currently not yet in use) (status 3)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedrange</frontend_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status3>
+                        <status4 translate="label">
+                            <label>Postal address is incorrect (status 4)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedrange</frontend_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status4>
+                        <status5 translate="label">
+                            <label>Enquiry exceeds the credit limit (the credit limit is specified in the cooperation agreement) (status 5)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedrange</frontend_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status5>
+                        <titleModel4 translate="label comment">
+                            <frontend_type>Checkboxes</frontend_type>
+                            <sort_order>6</sort_order>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_titlerange</frontend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </titleModel4>
+                        <status6 translate="label">
+                            <label>Customer specifications not met (optional) (status 6)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedrange</frontend_model>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status6>
+                        <status7 translate="label">
+                            <label>Enquiry exceeds the net credit limit (enquiry amount plus open items exceeds credit limit) (status 7)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedrange</frontend_model>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status7>
+                        <status8 translate="label">
+                            <label>Person queried is not of creditworthy age (status 8)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedrange</frontend_model>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status8>
+                        <status9 translate="label">
+                            <label>Delivery address does not match invoice address (for payment guarantee only) (status 9)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedrange</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status9>
+                        <titleModel3 translate="label comment">
+                            <frontend_type>Checkboxes</frontend_type>
+                            <sort_order>11</sort_order>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_titlerange</frontend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </titleModel3>
+                        <status10 translate="label">
+                            <label>Household cannot be identified at this address (status 10)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedrange</frontend_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status10>
+                        <status11 translate="label">
+                            <label>Country is not supported (status 11)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedrange</frontend_model>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status11>
+                        <status12 translate="label">
+                            <label>Party queried is not a natural person (status 12)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedrange</frontend_model>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status12>
+                        <status13 translate="label">
+                            <label>System is in maintenance mode (status 13)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedrange</frontend_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status13>
+                        <status14 translate="label">
+                            <label>Address with high fraud risk (status 14)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedrange</frontend_model>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status14>
+                        <status15 translate="label">
+                            <label>Allowance is too low (status 15)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedrange</frontend_model>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status15>
+                        <titleModel2 translate="label comment">
+                            <frontend_type>Checkboxes</frontend_type>
+                            <sort_order>18</sort_order>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_titlerange</frontend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </titleModel2>
+                        <status0 translate="label">
+                            <label>Fail to connect (status Error)</label>
+                            <frontend_type>Checkboxes</frontend_type>
+                            <frontend_model>diglin_intrum/catalog_form_renderer_config_allowedRange</frontend_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </status0>
+                    </fields>
+                </risk>
+                
+                <mappings translate="label">
+                    <label>Payment methods mappings</label>
+                    <frontend_type>text</frontend_type>
+                    <frontend_model>diglin_intrum/adminhtml_system_config_form_fieldset_customer_groups</frontend_model>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                </mappings>
+                
+                <advancedcall translate="label">
+                    <label>Risk managment activation places (for developers)</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>4</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                        <fields>
+                        <activation translate="label">
+                            <label>Provide activation places when to call risk managment (Each place on new line (ModuleName, ControllerName))</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </activation>
+                    </fields>
+                </advancedcall>
+            </groups>
+        </intrum>
+    </sections>
+</config>

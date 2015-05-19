@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Diglin GmbH - Switzerland
+ *
+ * @author      Sylvain Rayé <support at diglin.com>
+ * @category    Diglin_Intrum
+ * @package     Diglin_Intrum
+ * @copyright   Copyright (c) 2011-2015 Diglin (http://www.diglin.com)
+ */-->
+<config>
+    <modules>
+        <Diglin_Intrum>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Payment/>
+            </depends>
+        </Diglin_Intrum>
+    </modules>
+</config>
