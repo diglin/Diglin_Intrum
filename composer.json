@@ -11,7 +11,7 @@
   ],
   "minimum-stability": "stable",
   "require": {
-    "diglin/intrum": "dev-master"
+    "diglin/intrum": "1.*"
   },
   "require-dev": {
     "ecomdev/ecomdev_phpunit": "*",
