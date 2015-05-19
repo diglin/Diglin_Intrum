@@ -49,12 +49,12 @@ Do not forget the folder "lib"
 ```
  {
     "require" : {
-        "diglin/magento-intrum": "1.*"
+        "diglin/diglin_intrum": "1.*"
     },
     "repositories" : [
         {
             "type": "vcs",
-            "url": "git@bitbucket.org:diglin/magento-intrum.git"
+            "url": "git@bitbucket.org:diglin/diglin_intrum.git"
         },
         {
             "type": "vcs",
