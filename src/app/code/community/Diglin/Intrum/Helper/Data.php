@@ -17,6 +17,11 @@ use Diglin\Intrum\CreditDecision\Response;
 class Diglin_Intrum_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * @param Request $request
      * @param $xmlRequest
      * @param $xmlResponse
@@ -27,11 +32,21 @@ class Diglin_Intrum_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function saveLog(Request $request, $xmlRequest, $xmlResponse, $status, $type)
     {
-        $person = $request->getCustomer()->getPerson();
-        $address = $person->getCurrentAddress();
+        $companyName = '';
+        if ($person = $request->getCustomer()->getPerson()) {
+            $address = $person->getCurrentAddress();
+        } else if ($company = $request->getCustomer()->getCompany()) {
+            $companyName = $company->getCompanyName1();
+            $orderingPerson = $company->getOrderingPerson();
+
+            /* @var $person Diglin\Intrum\CreditDecision\Request\Customer\Person */
+            $person = $orderingPerson['OrderingPerson']['Person'];
+            $address = $company->getCurrentAddress();
+        }
 
         $data = array('firstname'  => $person->getFirstName(),
                       'lastname'   => $person->getLastName(),
+                      'company'    => $companyName,
                       'postcode'   => $address->getPostCode(),
                       'town'       => $address->getTown(),
                       'country'    => $address->getCountryCode(),
@@ -148,15 +163,17 @@ class Diglin_Intrum_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         $store = $object->getStore();
+        $dom = new \DOMDocument("1.0", "UTF-8");
 
-        $request = new Request();
-        $request->setClientId(Mage::getStoreConfig('intrum/api/clientid', $store));
-        $request->setUserID(Mage::getStoreConfig('intrum/api/userid', $store));
-        $request->setPassword(Mage::getStoreConfig('intrum/api/password', $store));
-        $request->setRequestId(uniqid((string)  $object->getBillingAddress()->getId() . "_"));
+        $this->request = new Request();
+        $dom->appendChild($this->request);
+        $this->request->setClientId(Mage::getStoreConfig('intrum/api/clientid', $store));
+        $this->request->setUserID(Mage::getStoreConfig('intrum/api/userid', $store));
+        $this->request->setPassword(Mage::getStoreConfig('intrum/api/password', $store));
+        $this->request->setRequestId((int)$object->getBillingAddress()->getId() . time());
 
         try {
-            $request->setEmail(Mage::getStoreConfig('intrum/api/mail', $store));
+            $this->request->setEmail(Mage::getStoreConfig('intrum/api/mail', $store));
         } catch (Exception $e) {
             Mage::logException($e);
         }
@@ -166,93 +183,129 @@ class Diglin_Intrum_Helper_Data extends Mage_Core_Helper_Abstract
             $birthday = Mage::getModel('core/date')->date('Y-m-d', strtotime($birthday));
         }
 
-        $gender = $object->getCustomerGender();
-        if (!empty($gender)) {
-            if ($gender == '1') {
-                $request->setGender('1');
-            } else if ($gender == '2') {
-                $request->setGender('2');
-            }
+        if ($object instanceof Mage_Sales_Model_Order) {
+            $customerId = $object->getCustomerId();
+        } else {
+            $customerId = $object->getCustomer()->getId();
         }
-        $reference = $object->getCustomer()->getId();
-        if (empty($reference)) {
+
+        if (empty($customerId)) {
             $reference = "guest_" . $object->getBillingAddress()->getId();
         } else {
             $reference = $object->getCustomer()->getId();
         }
 
         $data = array(
-            'customer_reference' => $reference,
-            'person' => array(
-                'first_name'       => (string) $object->getBillingAddress()->getFirstname(),
-                'last_name'        => (string) $object->getBillingAddress()->getLastname(),
-                'gender'           => $gender,
-                'date_of_birth'    => $birthday, // DD.MM.YYYY
-                'language'         => (string) substr(Mage::app()->getLocale()->getLocaleCode(), 0, 2),
-                'current_address'  => array(
-                    'first_line'    => trim((string) $object->getBillingAddress()->getStreetFull()),
-//                    'house_number' => '',
-                    'post_code'     => (string) $object->getBillingAddress()->getPostcode(),
-                    'country_code'  => (string) $object->getBillingAddress()->getCountryId(),
-                    'town'          => strtoupper((string) $object->getBillingAddress()->getCity())
-                ),
-                'communication_numbers' => array(
-                    'telephone_private' => (string) $object->getBillingAddress()->getTelephone(),
-                    'email'             => (string) $object->getBillingAddress()->getEmail(),
-                    'fax'               => (string) $object->getBillingAddress()->getFax()
-                ),
-                'extra_info' => array(
-                    array(
-                        'name' => 'ORDERCLOSED',
-                        'value' => ($object instanceof Mage_Sales_Model_Order) ? 'YES' : 'NO'
-                    ),
-                    array(
-                        'name' => 'ORDERAMOUNT',
-                        'value' => $object->getGrandTotal()
-                    ),
-                    array(
-                        'name' => 'ORDERCURRENCY',
-                        'value' => $object->getBaseCurrencyCode()
-                    ),
-                    array(
-                        'name' => 'IP',
-                        'value' => $this->getClientIp()
-                    )
-                )
+            'customer_reference' => $reference
+        );
+
+        $person = array(
+            'first_name'            => (string)$object->getBillingAddress()->getFirstname(),
+            'last_name'             => (string)$object->getBillingAddress()->getLastname(),
+            'gender'                => $object->getCustomerGender(),
+            'date_of_birth'         => $birthday, // DD.MM.YYYY
+            'language'              => (string)substr(Mage::app()->getLocale()->getLocaleCode(), 0, 2),
+            'current_address'       => array(
+                'first_line'   => trim((string)$object->getBillingAddress()->getStreetFull()),
+                'post_code'    => (string)$object->getBillingAddress()->getPostcode(),
+                'country_code' => (string)$object->getBillingAddress()->getCountryId(),
+                'town'         => (string)$object->getBillingAddress()->getCity()
+            ),
+            'communication_numbers' => array(
+                'telephone_private' => (string)$object->getBillingAddress()->getTelephone(),
+                'email'             => (string)$object->getBillingAddress()->getEmail(),
+                'fax'               => (string)$object->getBillingAddress()->getFax()
             )
         );
 
-        $request->createRequest($data);
+        $company = $object->getBillingAddress()->getCompany();
+        if (empty($company)) {
+            $data['person'] = $person;
+            $data['person']['extra_info'] = $this->getExtraInfo($object, $paymentMethod);
+        } else {
+            $data['company'] = array(
+                'company_name1'   => $company,
+                'current_address' => array(
+                    'first_line'   => trim((string)$object->getBillingAddress()->getStreetFull()),
+                    'post_code'    => (string)$object->getBillingAddress()->getPostcode(),
+                    'country_code' => (string)$object->getBillingAddress()->getCountryId(),
+                    'town'         => (string)$object->getBillingAddress()->getCity()
+                ),
+                'ordering_person' =>
+                    array(
+                        'function' => 1, //CEO
+                        'person'   => $person
+                    ),
+                'extra_info' => $this->getExtraInfo($object, $paymentMethod)
+            );
+        }
+
+        $this->request->createRequest($data);
+
+        return $dom;
+    }
+
+    /**
+     * @param Mage_Sales_Model_Order | Mage_Sales_Model_Quote $object
+     * @param string $paymentMethod
+     * @return array
+     */
+    public function getExtraInfo($object, $paymentMethod)
+    {
+        $extraInfo = array(
+            array(
+                'name'  => 'ORDERCLOSED',
+                'value' => ($object instanceof Mage_Sales_Model_Order) ? 'YES' : 'NO'
+            ),
+            array(
+                'name'  => 'ORDERAMOUNT',
+                'value' => $object->getGrandTotal()
+            ),
+            array(
+                'name'  => 'ORDERCURRENCY',
+                'value' => $object->getBaseCurrencyCode()
+            ),
+            array(
+                'name'  => 'IP',
+                'value' => $this->getClientIp()
+            )
+        );
+
+        if ($object instanceof Mage_Sales_Model_Quote) {
+            $canShip = ($object->isVirtual()) ? false : true;
+        } elseif ($object instanceof Mage_Sales_Model_Order) {
+            $canShip = ($object->canShip()) ? true : false;
+        }
 
         /* Shipping information */
-        if (!$object->isVirtual()) {
-            $extraInfo = array(
+        if ($canShip) {
+            $extraInfo += array(
                 array(
-                    'name' => 'DELIVERY_FIRSTNAME',
+                    'name'  => 'DELIVERY_FIRSTNAME',
                     'value' => $object->getShippingAddress()->getFirstname(),
                 ),
                 array(
-                    'name' => 'DELIVERY_LASTNAME',
+                    'name'  => 'DELIVERY_LASTNAME',
                     'value' => $object->getShippingAddress()->getLastname(),
                 ),
                 array(
-                    'name' => 'DELIVERY_FIRSTLINE',
+                    'name'  => 'DELIVERY_FIRSTLINE',
                     'value' => $object->getShippingAddress()->getStreetFull(),
                 ),
                 array(
-                    'name' => 'DELIVERY_HOUSENUMBER',
+                    'name'  => 'DELIVERY_HOUSENUMBER',
                     'value' => '',
                 ),
                 array(
-                    'name' => 'DELIVERY_COUNTRYCODE',
+                    'name'  => 'DELIVERY_COUNTRYCODE',
                     'value' => strtoupper($object->getShippingAddress()->getCountry()),
                 ),
                 array(
-                    'name' => 'DELIVERY_POSTCODE',
+                    'name'  => 'DELIVERY_POSTCODE',
                     'value' => strtoupper($object->getShippingAddress()->getPostcode()),
                 ),
                 array(
-                    'name' => 'DELIVERY_TOWN',
+                    'name'  => 'DELIVERY_TOWN',
                     'value' => strtoupper($object->getShippingAddress()->getCity()),
                 )
             );
@@ -260,9 +313,9 @@ class Diglin_Intrum_Helper_Data extends Mage_Core_Helper_Abstract
 
         if ($object instanceof Mage_Sales_Model_Order) {
             $extraInfo[] = array(
-                    'name' => 'ORDERID',
-                    'value' => $object->getIncrementId(),
-                );
+                'name'  => 'ORDERID',
+                'value' => $object->getIncrementId(),
+            );
 
             if (!empty($paymentMethod)) {
                 $extraInfo[] = array(
@@ -272,14 +325,7 @@ class Diglin_Intrum_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
 
-        if (!empty($extraInfo)) {
-            $request->getCustomer()->getPerson()->setExtraInfo($extraInfo);
-        }
-
-        $dom = new \DOMDocument("1.0", "UTF-8");
-        $dom->appendChild($request);
-
-        return $dom;
+        return $extraInfo;
     }
 
     /**
@@ -339,5 +385,13 @@ class Diglin_Intrum_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return $methods;
+    }
+
+    /**
+     * @return Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
     }
 }

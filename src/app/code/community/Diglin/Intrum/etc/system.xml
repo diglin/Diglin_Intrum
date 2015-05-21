@@ -28,8 +28,8 @@
                         <pluginenabled translate="label comment">
                             <label>Enable credit check</label>
                             <frontend_type>select</frontend_type>
-                            <sort_order>0</sort_order>
-                            <source_model>diglin_intrum/config_source_activate</source_model>
+                            <sort_order>10</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -37,7 +37,7 @@
                         <currentmode translate="label comment">
                             <label>Mode</label>
                             <frontend_type>select</frontend_type>
-                            <sort_order>0</sort_order>
+                            <sort_order>20</sort_order>
                             <source_model>diglin_intrum/config_source_modes</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -46,7 +46,7 @@
                         <clientid translate="label">
                             <label>Client ID</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>1</sort_order>
+                            <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -54,7 +54,7 @@
                         <userid translate="label">
                             <label>User ID</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>2</sort_order>
+                            <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -62,7 +62,7 @@
                         <password translate="label">
                             <label>Password</label>
                             <frontend_type>password</frontend_type>
-                            <sort_order>3</sort_order>
+                            <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -70,7 +70,7 @@
                         <mail translate="label">
                             <label>Technical Contact (E-mail)</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>4</sort_order>
+                            <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -78,19 +78,19 @@
                         <minamout translate="label">
                             <label>Mininmal amount for credit check</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>5</sort_order>
+                            <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </minamout>
                         <timeout translate="label">
-                           <label>Connection timeout to Intrum CDP server in seconds</label>
-                           <frontend_type>text</frontend_type>
-                           <validate>required-entry validate-digits</validate>
-                           <sort_order>6</sort_order>
-                           <show_in_default>1</show_in_default>
-                           <show_in_website>1</show_in_website>
-                           <show_in_store>1</show_in_store>
+                            <label>Connection timeout to Intrum CDP server in seconds</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>required-entry validate-digits</validate>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </timeout>
                     </fields>
                 </api>
@@ -280,17 +280,48 @@
                         </status0>
                     </fields>
                 </risk>
-                
+
                 <mappings translate="label">
                     <label>Payment methods mappings</label>
                     <frontend_type>text</frontend_type>
-                    <frontend_model>diglin_intrum/adminhtml_system_config_form_fieldset_customer_groups</frontend_model>
+                    <frontend_model>diglin_intrum/adminhtml_system_config_form_fieldset_payment_mappings</frontend_model>
                     <sort_order>2</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                 </mappings>
-                
+
+                <customers>
+                    <label>Customers</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>3</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <groups>
+                            <label>Customer Groups to check</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>diglin_intrum/config_source_group</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[All customers groups are per default checked, however if you only want to check a set of customer group select them here.]]></comment>
+                        </groups>
+                        <company>
+                            <label>Check company</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[If a customer enter the company name in the billing field, do you want to check it]]></comment>
+                        </company>
+                    </fields>
+                </customers>
+
                 <advancedcall translate="label">
                     <label>Risk managment activation places (for developers)</label>
                     <frontend_type>text</frontend_type>
@@ -298,7 +329,7 @@
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
-                        <fields>
+                    <fields>
                         <activation translate="label">
                             <label>Provide activation places when to call risk managment (Each place on new line (ModuleName, ControllerName))</label>
                             <frontend_type>textarea</frontend_type>
@@ -307,6 +338,16 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </activation>
+                        <real_onepagecheckout translate="label comment">
+                            <label>Have a real Onepage Checkout?</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>10</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Is billing address and payment methods are displayed on the same page at the same time (real one page checkout)?</comment>
+                        </real_onepagecheckout>
                     </fields>
                 </advancedcall>
             </groups>

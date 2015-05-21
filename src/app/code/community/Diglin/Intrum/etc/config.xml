@@ -22,16 +22,21 @@
                 <password />
                 <client_id />
                 <client_email />
+                <pluginenabled>1</pluginenabled>
                 <currentmode>test</currentmode>
                 <minamout>10</minamout>
                 <timeout>30</timeout>
             </api>
+            <customers>
+                <company>0</company>
+            </customers>
             <advancedcall>
                 <activation><![CDATA[checkout,onepage
 onestepcheckout,index
 onestepcheckout,onepage
 PostFinanceCw,onepage
 PostFinanceCw,process]]></activation>
+                <real_onepagecheckout>0</real_onepagecheckout>
             </advancedcall>
         </intrum>
     </default>
@@ -141,7 +146,7 @@ PostFinanceCw,process]]></activation>
                 </observers>
             </add_spl_autoloader>
 
-            <controller_action_predispatch_checkout_onepage_saveBilling>
+            <controller_action_postdispatch_checkout_onepage_saveBilling>
                 <observers>
                     <auto_register_shipping>
                         <type>singleton</type>
@@ -149,7 +154,7 @@ PostFinanceCw,process]]></activation>
                         <method>checkoutControllerOnepageSaveBillingMethod</method>
                     </auto_register_shipping>
                 </observers>
-            </controller_action_predispatch_checkout_onepage_saveBilling>
+            </controller_action_postdispatch_checkout_onepage_saveBilling>
 
             <checkout_controller_onepage_save_shipping_method>
                 <observers>

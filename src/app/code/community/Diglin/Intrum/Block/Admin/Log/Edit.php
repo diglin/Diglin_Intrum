@@ -20,9 +20,9 @@ class Diglin_Intrum_Block_Admin_Log_Edit extends Mage_Core_Block_Abstract
 
     protected function _toHtml()
     {
-        $logview = Mage::getModel('intrum/intrum')->load($this->getRequest()->getParam('id'));
+        $logview = Mage::getModel('diglin_intrum/log')->load($this->getRequest()->getParam('id'));
 
-        /* @var $logview Intrum_Cdp_Model_Intrum */
+        /* @var $logview Diglin_Intrum_Model_log */
         $domInput = new DOMDocument();
         $domInput->preserveWhiteSpace = false;
         $domInput->loadXML($logview->getData("request"));
@@ -33,8 +33,10 @@ class Diglin_Intrum_Block_Admin_Log_Edit extends Mage_Core_Block_Abstract
         $domInput->formatOutput = true;
         libxml_use_internal_errors(true);
         $testXml = simplexml_load_string($logview->getData("response"));
+
         $domOutput = new DOMDocument();
         $domOutput->preserveWhiteSpace = false;
+
         if ($testXml) {
             $domOutput->loadXML($logview->getData("response"));
             $domOutput->formatOutput = true;

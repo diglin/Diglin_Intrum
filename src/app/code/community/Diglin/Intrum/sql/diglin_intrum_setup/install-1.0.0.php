@@ -27,6 +27,7 @@ $tableLog
     ->addColumn('log_id', Varien_Db_Ddl_Table::TYPE_INTEGER, 4, array('primary' => true, 'auto_increment' => true, 'nullable' => false, 'unsigned' => true))
     ->addColumn('firstname', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array('nullable' => true))
     ->addColumn('lastname', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array('nullable' => true))
+    ->addColumn('company', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array('nullable' => true))
     ->addColumn('street', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array('nullable' => true))
     ->addColumn('postcode', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array('nullable' => true))
     ->addColumn('town', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array('nullable' => true))
@@ -38,7 +39,7 @@ $tableLog
     ->addColumn('error', Varien_Db_Ddl_Table::TYPE_TEXT, null, array('nullable' => true))
     ->addColumn('response', Varien_Db_Ddl_Table::TYPE_TEXT, null, array('nullable' => true))
     ->addColumn('request', Varien_Db_Ddl_Table::TYPE_TEXT, null, array('nullable' => true))
-    ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array('nullable' => true, 'default' => 'now()'))
+    ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array('nullable' => true, 'default' => Varien_Db_Ddl_Table::TIMESTAMP_INIT_UPDATE))
     ->setComment('Log for Intrum requests');
 
 $installer->getConnection()->createTable($tableLog);

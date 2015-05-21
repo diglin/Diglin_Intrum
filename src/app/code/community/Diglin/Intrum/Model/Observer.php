@@ -75,11 +75,14 @@ class Diglin_Intrum_Model_Observer
     }
 
     /**
+     * Event
+     * - payment_method_is_active
+     *
      * @param Varien_Event_Observer $observer
      */
     public function checkAndCall(Varien_Event_Observer $observer)
     {
-        if (Mage::getStoreConfig('intrum/api/pluginenabled', Mage::app()->getStore()) == 'disable') {
+        if (!Mage::getStoreConfigFlag('intrum/api/pluginenabled', Mage::app()->getStore())) {
             return;
         }
 
@@ -92,6 +95,10 @@ class Diglin_Intrum_Model_Observer
 
         /* @var $quote Mage_Sales_Model_Quote */
         $quote = Mage::getSingleton('checkout/type_onepage')->getQuote();
+
+        if (!$this->shouldbeChecked($quote)) {
+            return;
+        }
 
         if (isset($status) && $quote->getGrandTotal() >= $minimumAmount) {
             $status = intval($status);
@@ -108,34 +115,57 @@ class Diglin_Intrum_Model_Observer
     }
 
     /**
+     * Event:
+     * - controller_action_predispatch_checkout_onepage_saveBilling
+     *
      * @param Varien_Event_Observer $observer
      */
     public function checkoutControllerOnepageSaveBillingMethod(Varien_Event_Observer $observer)
     {
-        if (Mage::getStoreConfig('intrum/api/pluginenabled', Mage::app()->getStore()) == 'disable') {
+        if (!Mage::getStoreConfigFlag('intrum/api/pluginenabled', Mage::app()->getStore())) {
             return;
         }
 
+        if (false === $this->isInCheckoutProcess()) {
+            return;
+        }
+
+        /* @var $quote Mage_Sales_Model_Quote */
         $quote = Mage::getSingleton('checkout/type_onepage')->getQuote();
-        if ($quote->isVirtual()) {
+
+        if (!$this->shouldbeChecked($quote)) {
+            return;
+        }
+
+        $observer->setQuote($quote);
+
+        if ($quote->isVirtual() || Mage::getStoreConfigFlag('intrum/advancedcall/real_onepagecheckout')) {
             $this->checkoutControllerOnepageSaveShippingMethod($observer);
         }
     }
 
     /**
+     * Event:
+     * - checkout_controller_onepage_save_shipping_method
+     *
      * @param Varien_Event_Observer $observer
      */
     public function checkoutControllerOnepageSaveShippingMethod(Varien_Event_Observer $observer)
     {
-        if (Mage::getStoreConfig('intrum/api/pluginenabled', Mage::app()->getStore()) == 'disable') {
+        if (!Mage::getStoreConfigFlag('intrum/api/pluginenabled', Mage::app()->getStore())) {
             return;
         }
 
-        $quote = Mage::getSingleton('checkout/type_onepage')->getQuote();
-        $request = $this->getHelper()->createShopRequest($quote);
-        $xml = $request->saveXml();
+        $quote = $observer->getQuote();
 
-        if ($intrumResponse = $this->sendRequest($xml, $request, $this->getHelper()->__('Intrum status'))) {
+        if (!$this->shouldbeChecked($quote)) {
+            return;
+        }
+
+        $dom = $this->getHelper()->createShopRequest($quote);
+        $xml = $dom->saveXml();
+
+        if ($intrumResponse = $this->sendRequest($xml, $this->getHelper()->getRequest(), $this->getHelper()->__('Intrum status'))) {
             $status = (int) $intrumResponse->getCustomerRequestStatus();
             if (intval($status) > 15) {
                 $status = 0;
@@ -146,11 +176,14 @@ class Diglin_Intrum_Model_Observer
     }
 
     /**
+     * Event
+     * - checkout_onepage_controller_success_action
+     *
      * @param Varien_Event_Observer $observer
      */
     public function salesOrderPaymentPlaceEnd(Varien_Event_Observer $observer)
     {
-        if (Mage::getStoreConfig('intrum/api/pluginenabled', Mage::app()->getStore()) == 'disable') {
+        if (!Mage::getStoreConfigFlag('intrum/api/pluginenabled', Mage::app()->getStore())) {
             return;
         }
 
@@ -160,20 +193,20 @@ class Diglin_Intrum_Model_Observer
         $order = Mage::getModel('sales/order')->load($orderId);
         $incrementId = $order->getIncrementId();
 
-        if (empty($incrementId)) {
+        if (empty($incrementId) || !$this->shouldbeChecked($order)) {
             return;
         }
 
         $paymentMethod = $order->getPayment()->getMethod();
-        $request = $this->getHelper()->createShopRequestPaid($order, $paymentMethod);
-        $xml = $request->saveXML();
+        $dom = $this->getHelper()->createShopRequestPaid($order, $paymentMethod);
+        $xml = $dom->saveXML();
 
-        if ($this->sendRequest($xml, $request, $this->getHelper()->__('Order Paid'))) {
+        if ($this->sendRequest($xml, $this->getHelper()->getRequest(), $this->getHelper()->__('Order Closed'))) {
             $statusToPayment = Mage::getSingleton('checkout/session')->getData('IntrumCDPStatus');
-            $IntrumResponseSession = Mage::getSingleton('checkout/session')->getData('IntrumResponse');
+            $intrumResponseSession = Mage::getSingleton('checkout/session')->getData('IntrumResponse');
 
-            if (!empty($statusToPayment) && !empty($IntrumResponseSession)) {
-                $this->getHelper()->saveStatusToOrder($order, $statusToPayment, unserialize($IntrumResponseSession));
+            if (!empty($statusToPayment) && !empty($intrumResponseSession)) {
+                $this->getHelper()->saveStatusToOrder($order, $statusToPayment, unserialize($intrumResponseSession));
             }
         }
     }
@@ -189,18 +222,18 @@ class Diglin_Intrum_Model_Observer
         $timeOut = (int) Mage::getStoreConfig('intrum/api/timeout', Mage::app()->getStore());
         $mode = Mage::getStoreConfig('intrum/api/currentmode', Mage::app()->getStore());
 
-        $intrumCommunicator = new Transport();
+        $transport = new Transport();
         if ($mode == 'production') {
-            $intrumCommunicator->setMode('live');
+            $transport->setMode('live');
         } else {
-            $intrumCommunicator->setMode('test');
+            $transport->setMode('test');
         }
 
         if ($xml instanceof DOMDocument) {
             $xml = $xml->saveXML();
         }
 
-        $response = $intrumCommunicator->sendRequest($xml, $timeOut);
+        $response = $transport->sendRequest($xml, $timeOut);
         if ($response) {
             $intrumResponse = new Response();
             $intrumResponse->setRawResponse($response);
@@ -221,7 +254,7 @@ class Diglin_Intrum_Model_Observer
     /**
      * @return bool
      */
-    public function isInCheckoutProcess()
+    private function isInCheckoutProcess()
     {
         $places = Mage::getStoreConfig('intrum/advancedcall/activation', Mage::app()->getStore());
         $pl = explode("\n", $places);
@@ -235,9 +268,30 @@ class Diglin_Intrum_Model_Observer
                     return true;
                 }
             }
-
         }
 
         return false;
+    }
+
+    /**
+     * @param Mage_Sales_Model_Order | Mage_Sales_Model_Quote $object
+     * @return bool
+     */
+    private function shouldbeChecked($object)
+    {
+        $shouldBeChecked = false;
+        $customerGroups = explode(',', Mage::getStoreConfig('intrum/customers/groups'));
+        $checkCompany = Mage::getStoreConfigFlag('intrum/customers/company');
+
+        if (in_array($object->getCustomerGroupId(), $customerGroups) || empty($customerGroups)) {
+            $shouldBeChecked = true;
+        }
+
+        $company = $object->getBillingAddress()->getCompany();
+        if (!empty($company) && $checkCompany) {
+            $shouldBeChecked = true;
+        }
+
+        return $shouldBeChecked;
     }
 }

@@ -7,10 +7,14 @@
                     <title>Intrum</title>
                     <sort_order>100</sort_order>
                     <children>
-                        <set_time>
+                        <set_time translate="title" module="diglin_intrum">
                             <title>Request log</title>
                             <action>adminhtml/log</action>
                         </set_time>
+                        <config translate="title" module="diglin_intrum">
+                            <title>Configuration</title>
+                            <action>adminhtml/system_config/edit/section/intrum</action>
+                        </config>
                     </children>
                 </intrum>
             </children>
@@ -27,26 +31,30 @@
                                 <title>Intrum</title>
                                 <sort_order>0</sort_order>
                                 <children>
-                                    <set_time>
+                                    <set_time translate="title" module="diglin_intrum">
                                         <title>Log</title>
                                         <sort_order>1</sort_order>
                                     </set_time>
-                                </children>
-                            </intrum>
-                            <system>
-                                <children>
-                                    <config>
-                                        <children>
-                                            <intrum translate="title" module="diglin_intrum">
-                                                <title>Intrum</title>
-                                                <sort_order>1</sort_order>
-                                            </intrum>
-                                        </children>
+                                    <config translate="title" module="diglin_intrum">
+                                        <title>Configuration</title>
+                                        <sort_order>2</sort_order>
                                     </config>
                                 </children>
-                            </system>
+                            </intrum>
                         </children>
                     </sales>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <intrum translate="title" module="diglin_intrum">
+                                        <title>Intrum</title>
+                                        <sort_order>1</sort_order>
+                                    </intrum>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
                 </children>
             </admin>
         </resources>

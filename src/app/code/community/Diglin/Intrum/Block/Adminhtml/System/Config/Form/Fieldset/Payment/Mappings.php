@@ -9,9 +9,9 @@
  */
 
 /**
- * Class Diglin_Intrum_Block_Adminhtml_System_Config_Form_Fieldset_Customer_Groups
+ * Class Diglin_Intrum_Block_Adminhtml_System_Config_Form_Fieldset_Payment_Mappings
  */
-class Diglin_Intrum_Block_Adminhtml_System_Config_Form_Fieldset_Customer_Groups extends Mage_Adminhtml_Block_System_Config_Form_Fieldset
+class Diglin_Intrum_Block_Adminhtml_System_Config_Form_Fieldset_Payment_Mappings extends Mage_Adminhtml_Block_System_Config_Form_Fieldset
 {
     protected $_dummyElement;
     protected $_fieldRenderer;
@@ -63,15 +63,17 @@ class Diglin_Intrum_Block_Adminhtml_System_Config_Form_Fieldset_Customer_Groups 
      */
     protected function _getValues()
     {
+        $helper = Mage::helper('diglin_intrum');
+        
         if (empty($this->_values)) {
             $this->_values = array(
-                array('label' => Mage::helper('diglin_intrum')->__('INVOICE'), 'value' => 'INVOICE'),
-                array('label' => Mage::helper('diglin_intrum')->__('DIRECT-DEBIT'), 'value' => 'DIRECT-DEBIT'),
-                array('label' => Mage::helper('diglin_intrum')->__('CREDIT-CARD'), 'value' => 'CREDIT-CARD'),
-                array('label' => Mage::helper('diglin_intrum')->__('PRE-PAY'), 'value' => 'PRE-PAY'),
-                array('label' => Mage::helper('diglin_intrum')->__('CASH-ON-DELIVERY'), 'value' => 'CASH-ON-DELIVERY'),
-                array('label' => Mage::helper('diglin_intrum')->__('E-PAYMENT'), 'value' => 'E-PAYMENT'),
-                array('label' => Mage::helper('diglin_intrum')->__('PAYMENT'), 'value' => 'PAYMENT')
+                array('label' => $helper->__('INVOICE'), 'value' => 'INVOICE'),
+                array('label' => $helper->__('DIRECT-DEBIT'), 'value' => 'DIRECT-DEBIT'),
+                array('label' => $helper->__('CREDIT-CARD'), 'value' => 'CREDIT-CARD'),
+                array('label' => $helper->__('PRE-PAY'), 'value' => 'PRE-PAY'),
+                array('label' => $helper->__('CASH-ON-DELIVERY'), 'value' => 'CASH-ON-DELIVERY'),
+                array('label' => $helper->__('E-PAYMENT'), 'value' => 'E-PAYMENT'),
+                array('label' => $helper->__('PAYMENT'), 'value' => 'PAYMENT')
             );
         }
 
