@@ -22,7 +22,7 @@
                 <password />
                 <client_id />
                 <client_email />
-                <pluginenabled>1</pluginenabled>
+                <pluginenabled>0</pluginenabled>
                 <currentmode>test</currentmode>
                 <minamout>10</minamout>
                 <timeout>30</timeout>
