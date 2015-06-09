@@ -165,7 +165,7 @@ class Diglin_Intrum_Model_Observer
         $dom = $this->getHelper()->createShopRequest($quote);
         $xml = $dom->saveXml();
 
-        if ($intrumResponse = $this->sendRequest($xml, $this->getHelper()->getRequest(), $this->getHelper()->__('Intrum status'))) {
+        if ($dom && $intrumResponse = $this->sendRequest($xml, $this->getHelper()->getRequest(), $this->getHelper()->__('Intrum status'))) {
             $status = (int) $intrumResponse->getCustomerRequestStatus();
             if (intval($status) > 15) {
                 $status = 0;
@@ -201,7 +201,7 @@ class Diglin_Intrum_Model_Observer
         $dom = $this->getHelper()->createShopRequestPaid($order, $paymentMethod);
         $xml = $dom->saveXML();
 
-        if ($this->sendRequest($xml, $this->getHelper()->getRequest(), $this->getHelper()->__('Order Closed'))) {
+        if ($dom && $this->sendRequest($xml, $this->getHelper()->getRequest(), $this->getHelper()->__('Order Closed'))) {
             $statusToPayment = Mage::getSingleton('checkout/session')->getData('IntrumCDPStatus');
             $intrumResponseSession = Mage::getSingleton('checkout/session')->getData('IntrumResponse');
 
@@ -244,7 +244,6 @@ class Diglin_Intrum_Model_Observer
             }
             $this->getHelper()->saveLog($request, $xml, $response, $status, $message);
             return $intrumResponse;
-
         } else {
             $this->getHelper()->saveLog($request, $xml, $this->getHelper()->__('Empty response'), '0', $message);
             return false;
@@ -282,14 +281,14 @@ class Diglin_Intrum_Model_Observer
         $shouldBeChecked = false;
         $customerGroups = explode(',', Mage::getStoreConfig('intrum/customers/groups'));
         $checkCompany = Mage::getStoreConfigFlag('intrum/customers/company');
+        $company = $object->getBillingAddress()->getCompany();
 
         if (in_array($object->getCustomerGroupId(), $customerGroups) || empty($customerGroups)) {
             $shouldBeChecked = true;
         }
 
-        $company = $object->getBillingAddress()->getCompany();
-        if (!empty($company) && $checkCompany) {
-            $shouldBeChecked = true;
+        if ($shouldBeChecked && !empty($company) && !$checkCompany) {
+            $shouldBeChecked = false;
         }
 
         return $shouldBeChecked;

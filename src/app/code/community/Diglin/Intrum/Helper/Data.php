@@ -162,6 +162,17 @@ class Diglin_Intrum_Helper_Data extends Mage_Core_Helper_Abstract
             throw new Exception($this->__('Object is not an order or a quote'));
         }
 
+        if ( !$object->getBillingAddress()->getFirstname()
+            && !$object->getBillingAddress()->getLastname()
+            && !$object->getBillingAddress()->getStreetFull()
+            && !$object->getBillingAddress()->getPostcode()
+            && !$object->getBillingAddress()->getCity()
+            && !$object->getBillingAddress()->getCountryId()
+            && !$object->getBillingAddress()->getPostcode()
+        ) {
+            return false;
+        }
+
         $store = $object->getStore();
         $dom = new \DOMDocument("1.0", "UTF-8");
 
@@ -203,7 +214,7 @@ class Diglin_Intrum_Helper_Data extends Mage_Core_Helper_Abstract
             'first_name'            => (string)$object->getBillingAddress()->getFirstname(),
             'last_name'             => (string)$object->getBillingAddress()->getLastname(),
             'gender'                => $object->getCustomerGender(),
-            'date_of_birth'         => $birthday, // DD.MM.YYYY
+            'date_of_birth'         => $birthday, // YYYY-MM-DD
             'language'              => (string)substr(Mage::app()->getLocale()->getLocaleCode(), 0, 2),
             'current_address'       => array(
                 'first_line'   => trim((string)$object->getBillingAddress()->getStreetFull()),
