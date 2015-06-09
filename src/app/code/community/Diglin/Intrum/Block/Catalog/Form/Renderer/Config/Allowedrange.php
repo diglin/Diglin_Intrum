@@ -11,7 +11,7 @@
 /**
  * Class Diglin_Intrum_Block_Catalog_Form_Renderer_Config_AllowedRange
  */
-class Diglin_Intrum_Block_Catalog_Form_Renderer_Config_AllowedRange extends Mage_Adminhtml_Block_System_Config_Form_Field
+class Diglin_Intrum_Block_Catalog_Form_Renderer_Config_Allowedrange extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
     /**
      * @param Varien_Data_Form_Element_Abstract $element
