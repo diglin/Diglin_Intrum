@@ -162,13 +162,12 @@ class Diglin_Intrum_Helper_Data extends Mage_Core_Helper_Abstract
             throw new Exception($this->__('Object is not an order or a quote'));
         }
 
-        if ( !$object->getBillingAddress()->getFirstname()
-            && !$object->getBillingAddress()->getLastname()
-            && !$object->getBillingAddress()->getStreetFull()
-            && !$object->getBillingAddress()->getPostcode()
-            && !$object->getBillingAddress()->getCity()
-            && !$object->getBillingAddress()->getCountryId()
-            && !$object->getBillingAddress()->getPostcode()
+        if (!$object->getBillingAddress()->getFirstname()
+            || !$object->getBillingAddress()->getLastname()
+            || !$object->getBillingAddress()->getStreetFull()
+            || !$object->getBillingAddress()->getPostcode()
+            || !$object->getBillingAddress()->getCity()
+            || !$object->getBillingAddress()->getCountryId()
         ) {
             return false;
         }

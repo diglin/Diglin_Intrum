@@ -163,15 +163,21 @@ class Diglin_Intrum_Model_Observer
         }
 
         $dom = $this->getHelper()->createShopRequest($quote);
-        $xml = $dom->saveXml();
+        $xml = null;
 
-        if ($dom && $intrumResponse = $this->sendRequest($xml, $this->getHelper()->getRequest(), $this->getHelper()->__('Intrum status'))) {
+        if ($dom) {
+            $xml = $dom->saveXML();
+        }
+
+        if ($xml && $intrumResponse = $this->sendRequest($xml, $this->getHelper()->getRequest(), $this->getHelper()->__('Intrum status'))) {
             $status = (int) $intrumResponse->getCustomerRequestStatus();
             if (intval($status) > 15) {
                 $status = 0;
             }
             Mage::getSingleton('checkout/session')->setData('IntrumResponse', serialize($intrumResponse));
             Mage::getSingleton('checkout/session')->setData('IntrumCDPStatus', $status);
+        } else {
+            Mage::log($this->__('Intrum status not set - DOM returned => %s', print_r($dom, true) ));
         }
     }
 
@@ -199,15 +205,21 @@ class Diglin_Intrum_Model_Observer
 
         $paymentMethod = $order->getPayment()->getMethod();
         $dom = $this->getHelper()->createShopRequestPaid($order, $paymentMethod);
-        $xml = $dom->saveXML();
+        $xml = null;
 
-        if ($dom && $this->sendRequest($xml, $this->getHelper()->getRequest(), $this->getHelper()->__('Order Closed'))) {
+        if ($dom) {
+            $xml = $dom->saveXML();
+        }
+
+        if ($xml && $this->sendRequest($xml, $this->getHelper()->getRequest(), $this->getHelper()->__('Order Closed'))) {
             $statusToPayment = Mage::getSingleton('checkout/session')->getData('IntrumCDPStatus');
             $intrumResponseSession = Mage::getSingleton('checkout/session')->getData('IntrumResponse');
 
             if (!empty($statusToPayment) && !empty($intrumResponseSession)) {
                 $this->getHelper()->saveStatusToOrder($order, $statusToPayment, unserialize($intrumResponseSession));
             }
+        } else {
+            Mage::log($this->__('Order not closed - DOM returned => %s', print_r($dom, true) ));
         }
     }
 
