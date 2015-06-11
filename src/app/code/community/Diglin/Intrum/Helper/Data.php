@@ -302,10 +302,10 @@ class Diglin_Intrum_Helper_Data extends Mage_Core_Helper_Abstract
                     'name'  => 'DELIVERY_FIRSTLINE',
                     'value' => $object->getShippingAddress()->getStreetFull(),
                 ),
-                array(
-                    'name'  => 'DELIVERY_HOUSENUMBER',
-                    'value' => '',
-                ),
+//                array(
+//                    'name'  => 'DELIVERY_HOUSENUMBER',
+//                    'value' => '', // If empty error on API side
+//                ),
                 array(
                     'name'  => 'DELIVERY_COUNTRYCODE',
                     'value' => strtoupper($object->getShippingAddress()->getCountry()),
