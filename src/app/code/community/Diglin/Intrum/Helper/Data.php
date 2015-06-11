@@ -289,7 +289,7 @@ class Diglin_Intrum_Helper_Data extends Mage_Core_Helper_Abstract
 
         /* Shipping information */
         if ($canShip) {
-            $extraInfo += array(
+            $extraInfo = array_merge($extraInfo, array(
                 array(
                     'name'  => 'DELIVERY_FIRSTNAME',
                     'value' => $object->getShippingAddress()->getFirstname(),
@@ -318,7 +318,7 @@ class Diglin_Intrum_Helper_Data extends Mage_Core_Helper_Abstract
                     'name'  => 'DELIVERY_TOWN',
                     'value' => strtoupper($object->getShippingAddress()->getCity()),
                 )
-            );
+            ));
         }
 
         if ($object instanceof Mage_Sales_Model_Order) {
