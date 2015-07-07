@@ -177,7 +177,7 @@ class Diglin_Intrum_Model_Observer
             Mage::getSingleton('checkout/session')->setData('IntrumResponse', serialize($intrumResponse));
             Mage::getSingleton('checkout/session')->setData('IntrumCDPStatus', $status);
         } else {
-            Mage::log($this->__('Intrum status not set - DOM returned => %s', print_r($dom, true) ));
+            Mage::log(Mage::helper('diglin_intrum')->__('Intrum status not set - DOM returned => %s', print_r($dom, true) ));
         }
     }
 
@@ -219,7 +219,7 @@ class Diglin_Intrum_Model_Observer
                 $this->getHelper()->saveStatusToOrder($order, $statusToPayment, unserialize($intrumResponseSession));
             }
         } else {
-            Mage::log($this->__('Order not closed - DOM returned => %s', print_r($dom, true) ));
+            Mage::log(Mage::helper('diglin_intrum')->__('Order not closed - DOM returned => %s', print_r($dom, true) ));
         }
     }
 
