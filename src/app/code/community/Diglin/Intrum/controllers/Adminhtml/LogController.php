@@ -13,6 +13,11 @@
  */
 class Diglin_Intrum_Adminhtml_LogController extends Mage_Adminhtml_Controller_Action
 {
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('sales/intrum/set_time');
+    }
+
     public function indexAction()
     {
         $this->loadLayout()->_addContent($this->getLayout()->createBlock('diglin_intrum/admin_log'))->renderLayout();
