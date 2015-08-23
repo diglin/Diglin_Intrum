@@ -202,7 +202,7 @@ class Diglin_Intrum_Helper_Data extends Mage_Core_Helper_Abstract
         if (empty($customerId)) {
             $reference = "guest_" . $object->getBillingAddress()->getId();
         } else {
-            $reference = $object->getCustomer()->getId();
+            $reference = $customerId;
         }
 
         $data = array(
