@@ -170,14 +170,14 @@ class Diglin_Intrum_Model_Observer
         }
 
         if ($xml && $intrumResponse = $this->sendRequest($xml, $this->getHelper()->getRequest(), $this->getHelper()->__('Intrum status'))) {
-            $status = (int) $intrumResponse->getCustomerRequestStatus();
+            $status = (int)$intrumResponse->getCustomerRequestStatus();
             if (intval($status) > 15) {
                 $status = 0;
             }
             Mage::getSingleton('checkout/session')->setData('IntrumResponse', serialize($intrumResponse));
             Mage::getSingleton('checkout/session')->setData('IntrumCDPStatus', $status);
         } else {
-            Mage::log(Mage::helper('diglin_intrum')->__('Intrum status not set - DOM returned => %s', print_r($dom, true) ));
+            Mage::log(Mage::helper('diglin_intrum')->__('Intrum status not set - DOM returned => %s', print_r($dom, true)));
         }
     }
 
@@ -219,7 +219,7 @@ class Diglin_Intrum_Model_Observer
                 $this->getHelper()->saveStatusToOrder($order, $statusToPayment, unserialize($intrumResponseSession));
             }
         } else {
-            Mage::log(Mage::helper('diglin_intrum')->__('Order not closed - DOM returned => %s', print_r($dom, true) ));
+            Mage::log(Mage::helper('diglin_intrum')->__('Order not closed - DOM returned => %s', print_r($dom, true)));
         }
     }
 
@@ -231,7 +231,7 @@ class Diglin_Intrum_Model_Observer
      */
     private function sendRequest($xml, Request $request, $message = '')
     {
-        $timeOut = (int) Mage::getStoreConfig('intrum/api/timeout', Mage::app()->getStore());
+        $timeOut = (int)Mage::getStoreConfig('intrum/api/timeout', Mage::app()->getStore());
         $mode = Mage::getStoreConfig('intrum/api/currentmode', Mage::app()->getStore());
 
         $transport = new Transport();
@@ -250,14 +250,16 @@ class Diglin_Intrum_Model_Observer
             $intrumResponse = new Response();
             $intrumResponse->setRawResponse($response);
             $intrumResponse->processResponse();
-            $status = (int) $intrumResponse->getCustomerRequestStatus();
+            $status = (int)$intrumResponse->getCustomerRequestStatus();
             if (intval($status) > 15) {
                 $status = 0;
             }
             $this->getHelper()->saveLog($request, $xml, $response, $status, $message);
+
             return $intrumResponse;
         } else {
             $this->getHelper()->saveLog($request, $xml, $this->getHelper()->__('Empty response'), '0', $message);
+
             return false;
         }
     }
@@ -301,6 +303,13 @@ class Diglin_Intrum_Model_Observer
 
         if ($shouldBeChecked && !empty($company) && !$checkCompany) {
             $shouldBeChecked = false;
+        }
+
+        if ($shouldBeChecked) {
+            $customerId = $object->getCustomer()->getId();
+            if (null != $customerId) {
+                $shouldBeChecked = Mage::getModel('diglin_intrum/customer')->checkReturningCustomer($customerId);
+            }
         }
 
         return $shouldBeChecked;

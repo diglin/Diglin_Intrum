@@ -15,6 +15,14 @@
         </Diglin_Intrum>
     </modules>
 
+    <phpunit>
+        <suite>
+            <modules>
+                <Diglin_Intrum />
+            </modules>
+        </suite>
+    </phpunit>
+
     <default>
         <intrum>
             <api>
