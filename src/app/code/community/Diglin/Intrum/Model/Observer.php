@@ -3,8 +3,8 @@
  * Diglin GmbH - Switzerland
  *
  * @author      Sylvain Rayé <support at diglin.com>
- * @category    drink.ch
- * @package     drink.ch
+ * @category    Diglin
+ * @package     Diglin_Intrum
  * @copyright   Copyright (c) 2011-2015 Diglin (http://www.diglin.com)
  */
 
@@ -297,12 +297,21 @@ class Diglin_Intrum_Model_Observer
         $checkCompany = Mage::getStoreConfigFlag('intrum/customers/company');
         $company = $object->getBillingAddress()->getCompany();
 
+        // Only customer belonging to a specific customer group(s) are checked
         if (in_array($object->getCustomerGroupId(), $customerGroups) || empty($customerGroups)) {
             $shouldBeChecked = true;
+
+            // Companies are checked if option enabled
+            if (!$checkCompany && !empty($company)) {
+                $shouldBeChecked = false;
+            }
         }
 
-        if ($shouldBeChecked && !empty($company) && !$checkCompany) {
-            $shouldBeChecked = false;
+        if ($shouldBeChecked && $object->getCustomer() instanceof Mage_Customer_Model_Customer) {
+            $customerId = $object->getCustomer()->getId();
+            if (null != $customerId) {
+                $shouldBeChecked = Mage::helper('diglin_intrum/customer')->checkReturningCustomer($customerId);
+            }
         }
 
         if ($shouldBeChecked) {
