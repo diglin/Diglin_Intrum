@@ -26,7 +26,7 @@ class Diglin_Intrum_Test_Model_CustomerTest extends EcomDev_PHPUnit_Test_Case {
         $customerId = 1154;
 
         /* @var $result bool */
-        $result = $this->_customerIntrum->checkReturningCustomer($customerId);
+        $result = Mage::helper('diglin_intrum/customer')->checkReturningCustomer($customerId);
         $this->assertNotTrue($result, 'Returning Customer did not order enough to be skipped from Intrum Check');
     }
 }

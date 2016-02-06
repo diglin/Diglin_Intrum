@@ -314,13 +314,6 @@ class Diglin_Intrum_Model_Observer
             }
         }
 
-        if ($shouldBeChecked) {
-            $customerId = $object->getCustomer()->getId();
-            if (null != $customerId) {
-                $shouldBeChecked = Mage::getModel('diglin_intrum/customer')->checkReturningCustomer($customerId);
-            }
-        }
-
         return $shouldBeChecked;
     }
 }

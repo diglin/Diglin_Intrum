@@ -9,9 +9,9 @@
  */
 
 /**
- * Class Diglin_Intrum_Model_Customer
+ * Class Diglin_Intrum_Helper_Customer
  */
-class Diglin_Intrum_Model_Customer extends Mage_Core_Model_Abstract
+class Diglin_Intrum_Helper_Customer extends Mage_Core_Model_Abstract
 {
     public function checkReturningCustomer($customerId)
     {
@@ -29,6 +29,8 @@ class Diglin_Intrum_Model_Customer extends Mage_Core_Model_Abstract
             ->addAttributeToSort('created_at', 'DESC');
 
         $validOrders = array();
+
+        /* @var $order Mage_Sales_Model_Order */
         foreach ($orders as $order) {
             $paymentMethod = $order->getPayment()->getMethodInstance()->getCode();
             if (in_array($paymentMethod, $paymentMethodCode)) {
