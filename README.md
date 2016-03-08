@@ -28,7 +28,7 @@ NaN
 ### Manually
 
 ```
-git clone https://github.com/diglin/ricento.git
+git clone git@github.com:diglin/Diglin_Intrum.git
 git submodule init
 git submodule fetch
 ```
