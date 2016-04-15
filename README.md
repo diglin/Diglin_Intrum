@@ -28,7 +28,7 @@ NaN
 ### Manually
 
 ```
-git clone https://github.com/diglin/ricento.git
+git clone git@github.com:diglin/Diglin_Intrum.git
 git submodule init
 git submodule fetch
 ```
@@ -39,7 +39,7 @@ Do not forget the folder "lib"
 ### Via modman
 
 - Install [modman](https://github.com/colinmollenhour/modman)
-- Use the command from your Magento installation folder: `modman clone https://bitbucket.org:diglin/magento-intrum.git`
+- Use the command from your Magento installation folder: `modman clone git@github.com:diglin/Diglin_Intrum.git`
 
 #### Via Composer
 
@@ -54,11 +54,11 @@ Do not forget the folder "lib"
     "repositories" : [
         {
             "type": "vcs",
-            "url": "git@bitbucket.org:diglin/diglin_intrum.git"
+            "url": "git@github.com:diglin/Diglin_Intrum.git"
         },
         {
             "type": "vcs",
-            "url": "git@bitbucket.org:diglin/intrum.git"
+            "url": "git@github.com:diglin/Intrum.git"
         }
     ],
      "scripts": {
@@ -73,7 +73,7 @@ Do not forget the folder "lib"
          ]
      },
      "extra":{
-       "magento-root-dir": "./"
+       "magento-root-dir": "./src"
      }
  }
  ```
