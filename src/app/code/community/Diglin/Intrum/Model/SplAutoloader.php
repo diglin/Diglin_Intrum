@@ -146,9 +146,11 @@ class Diglin_Intrum_Model_SplAutoloader extends Mage_Core_Model_Abstract
             $fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
         }
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-        $fileName = stream_resolve_include_path($fileName);
-        if (false !== $fileName) {
-            include_once $fileName;
+
+        // Load the files for the Diglin\Intrum\CreditDecision namespace from Magento's lib folder
+        $fileName = Mage::getBaseDir('lib') . DIRECTORY_SEPARATOR . $fileName;
+        if(isset($namespace) && (false !== strpos($namespace, 'Diglin\Intrum\CreditDecision')) && file_exists($fileName)) {
+            require_once $fileName;
         }
     }
 }
