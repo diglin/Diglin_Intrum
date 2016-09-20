@@ -152,10 +152,5 @@ class Diglin_Intrum_Model_SplAutoloader extends Mage_Core_Model_Abstract
         if(isset($namespace) && (false !== strpos($namespace, 'Diglin\Intrum\CreditDecision')) && file_exists($fileName)) {
             require_once $fileName;
         }
-
-//        $fileName = stream_resolve_include_path($fileName);
-//        if (false !== $fileName) {
-//            include_once $fileName;
-//        }
     }
 }
