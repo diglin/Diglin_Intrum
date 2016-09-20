@@ -13,6 +13,10 @@
  */
 class Diglin_Intrum_Helper_Customer extends Mage_Core_Model_Abstract
 {
+    /**
+     * @param $customerId
+     * @return bool
+     */
     public function checkReturningCustomer($customerId)
     {
         $date = date("Y-m-d", Mage::getModel('core/date')->timestamp(time()));
@@ -20,20 +24,34 @@ class Diglin_Intrum_Helper_Customer extends Mage_Core_Model_Abstract
         $dateInterval = Mage::getStoreConfig('intrum/customers/max_interval');
         $ordersNeeded = Mage::getStoreConfig('intrum/customers/orders_needed');
         $paymentMethodCode = explode(',', Mage::getStoreConfig('intrum/customers/payment_code'));
+
         $maxLastOrderDate = date("Y-m-d", strtotime($date . '-' . $dateInterval . ' days'));
 
-        $orders = Mage::getModel('sales/order')->getCollection()
-            ->addFieldToSelect('*')
-            ->addFieldToFilter('customer_id', $customerId)
-            ->addFieldToFilter('status', 'complete')
-            ->addAttributeToSort('created_at', 'DESC');
+        $id = md5(serialize([$customerId, $maxLastOrderDate]));
+
+        $orders = unserialize(Mage::app()->getCache()->load($id));
+
+        if (empty($orders)) {
+            $resource = Mage::getSingleton('core/resource');
+            $read = $resource->getConnection('default_setup');
+            $select = $read
+                ->select()
+                ->from(array('order' => $resource->getTableName('sales/order')))
+                ->join(array('order_payment' => $resource->getTableName('sales/order_payment')), 'order.entity_id = order_payment.parent_id', 'method')
+                ->where('customer_id = ?', $customerId)
+                ->where('status = ?', 'complete')
+                ->order(array('DESC' => 'created_at'));
+
+            $orders = $read->fetchAll($select);
+
+            Mage::app()->getCache()->save(serialize($orders), $id, ['intrum'], 86400);
+        }
 
         $validOrders = array();
 
         /* @var $order Mage_Sales_Model_Order */
         foreach ($orders as $order) {
-            $paymentMethod = $order->getPayment()->getMethodInstance()->getCode();
-            if (in_array($paymentMethod, $paymentMethodCode)) {
+            if (in_array($order['method'], $paymentMethodCode)) {
                 $validOrders[] = $order;
             }
         }

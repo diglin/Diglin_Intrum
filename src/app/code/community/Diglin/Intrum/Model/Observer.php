@@ -90,6 +90,14 @@ class Diglin_Intrum_Model_Observer
             return;
         }
 
+        $method = $observer->getEvent()->getMethodInstance();
+        $result = $observer->getEvent()->getResult();
+
+        Mage::dispatchEvent('diglin_intrum_checkandcall', array(
+            'method_instance' => $method,
+            'result' => $result
+        ));
+
         $status = Mage::getSingleton('checkout/session')->getData('IntrumCDPStatus');
         $minimumAmount = Mage::getStoreConfig('intrum/api/minamount', Mage::app()->getStore());
 
@@ -103,8 +111,6 @@ class Diglin_Intrum_Model_Observer
         if (isset($status) && $quote->getGrandTotal() >= $minimumAmount) {
             $status = intval($status);
             $methods = $this->getHelper()->getAllowedAndDeniedMethods(Mage::getStoreConfig('intrum/risk/status' . $status, Mage::app()->getStore()));
-            $method = $observer->getEvent()->getMethodInstance();
-            $result = $observer->getEvent()->getResult();
 
             if (in_array($method->getCode(), $methods["denied"])) {
                 $result->isAvailable = false;
@@ -292,28 +298,37 @@ class Diglin_Intrum_Model_Observer
      */
     private function shouldbeChecked($object)
     {
-        $shouldBeChecked = false;
+        $customerId = null;
+        $checkObject = new stdClass();
+        $checkObject->shouldBeChecked = false;
+
+        if ($object->getCustomer() instanceof Mage_Customer_Model_Customer) {
+            $customerId = $object->getCustomer()->getId();
+        }
+
         $customerGroups = explode(',', Mage::getStoreConfig('intrum/customers/groups'));
         $checkCompany = Mage::getStoreConfigFlag('intrum/customers/company');
         $company = $object->getBillingAddress()->getCompany();
 
         // Only customer belonging to a specific customer group(s) are checked
         if (in_array($object->getCustomerGroupId(), $customerGroups) || empty($customerGroups)) {
-            $shouldBeChecked = true;
+            $checkObject->shouldBeChecked = true;
 
             // Companies are checked if option enabled
             if (!$checkCompany && !empty($company)) {
-                $shouldBeChecked = false;
+                $checkObject->shouldBeChecked = false;
             }
         }
 
-        if ($shouldBeChecked && $object->getCustomer() instanceof Mage_Customer_Model_Customer) {
-            $customerId = $object->getCustomer()->getId();
-            if (null != $customerId) {
-                $shouldBeChecked = Mage::helper('diglin_intrum/customer')->checkReturningCustomer($customerId);
-            }
+        if ($checkObject->shouldBeChecked && null != $customerId) {
+            $checkObject->shouldBeChecked = Mage::helper('diglin_intrum/customer')->checkReturningCustomer($customerId);
         }
 
-        return $shouldBeChecked;
+        Mage::dispatchEvent('diglin_intrum_should_be_checked', array(
+            'sales_object' => $object,
+            'check' => $checkObject
+        ));
+
+        return $checkObject->shouldBeChecked;
     }
 }

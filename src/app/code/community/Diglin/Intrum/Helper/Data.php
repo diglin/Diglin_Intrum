@@ -153,7 +153,7 @@ class Diglin_Intrum_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param $object
      * @param null $paymentMethod
-     * @return DOMDocument
+     * @return bool|DOMDocument
      * @throws Exception
      */
     public function createRequest($object, $paymentMethod = null)
