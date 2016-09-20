@@ -20,7 +20,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "git@bitbucket.org:diglin/intrum.git"
+      "url": "git@github.com:diglin/Intrum.git"
     }
   ]
 }
