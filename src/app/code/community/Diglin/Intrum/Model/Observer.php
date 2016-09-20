@@ -115,6 +115,14 @@ class Diglin_Intrum_Model_Observer
             if (in_array($method->getCode(), $methods["denied"])) {
                 $result->isAvailable = false;
             }
+
+            $eventData = array(
+                'quote' => $quote,
+                'method' => $method,
+                'result' => $result,
+            );
+
+            Mage::dispatchEvent('diglin_intrum_checkandcall_after', $eventData);
         }
 
         return;
